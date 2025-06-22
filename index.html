@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            height: 200vh;
+            overflow-x: hidden;
+            position: relative;
+            background-color: #fff9f9;
+        }
+
+        .greeting {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .cake {
+            width: 300px;
+            height: 200px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .cake-base {
+            width: 250px;
+            height: 100px;
+            background: linear-gradient(to right, #f7d3a3, #e8b870);
+            border-radius: 0 0 20px 20px;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .cake-top {
+            width: 280px;
+            height: 60px;
+            background: linear-gradient(to right, #ffd6e7, #ffb6c1);
+            border-radius: 50% 50% 0 0;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .candle {
+            width: 15px;
+            height: 60px;
+            background: linear-gradient(to bottom, #ffd166, #ff9a3c);
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .flame {
+            width: 20px;
+            height: 40px;
+            background: linear-gradient(to bottom, #ffef9f, #ff9a3c);
+            border-radius: 50% 50% 20% 20%;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flicker 1s infinite alternate;
+            box-shadow: 0 0 20px #ffef9f;
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1); opacity: 1; }
+            100% { transform: translateX(-50%) scale(1.1, 0.9); opacity: 0.8; }
+        }
+
+        .sprinkles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .sprinkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: sprinkle-float 3s infinite ease-in-out;
+        }
+
+        @keyframes sprinkle-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .greeting h1 {
+            font-size: 4rem;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .greeting p {
+            font-size: 1.5rem;
+            color: #333;
+            max-width: 600px;
+        }
+
+        .scroll-message {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+            position: relative;
+        }
+
+        .scroll-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-message h2 {
+            font-size: 3rem;
+            color: #5f27cd;
+            margin-bottom: 20px;
+        }
+
+        .scroll-message p {
+            font-size: 1.3rem;
+            color: #333;
+            max-width: 600px;
+        }
+
+        .balloon-left, .balloon-right {
+            position: absolute;
+            width: 100px;
+            height: 120px;
+            border-radius: 50%;
+            animation: balloon-float 6s infinite ease-in-out;
+            z-index: -1;
+        }
+
+        .balloon-left {
+            left: 10%;
+            top: 30%;
+            background: radial-gradient(circle at 30% 30%, #ff6b6b, #d14242);
+        }
+
+        .balloon-right {
+            right: 10%;
+            top: 40%;
+            background: radial-gradient(circle at 30% 30%, #5f27cd, #3a1891);
+            animation-delay: 1s;
+        }
+
+        .balloon-left:before, .balloon-right:before {
+            content: "";
+            position: absolute;
+            width: 4px;
+            height: 100px;
+            background-color: rgba(0, 0, 0, 0.2);
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes balloon-float {
+            0%, 100% { transform: translateY(0) rotate(-3deg); }
+            50% { transform: translateY(-40px) rotate(3deg); }
+        }
+
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .music-control i {
+            font-size: 24px;
+            color: #ff6b6b;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="greeting">
+        <div class="cake">
+            <div class="cake-top"></div>
+            <div class="cake-base"></div>
+            <div class="candle"></div>
+            <div class="flame"></div>
+            <div class="sprinkles" id="sprinkles-container"></div>
+        </div>
+        <h1>Happy Birthday, Mahal ko!</h1>
+        <p>Wishing you a day filled with happiness and a year filled with joy.</p>
+    </div>
+
+    <div class="scroll-message">
+        <div class="balloon-left"></div>
+        <div class="balloon-right"></div>
+        <h2>To my baby chett!</h2>
+        <p>Even though miles separate us today, know that you’re close to my heart. I wish I could be there to celebrate with you, laugh with you, and make memories together. But until then, I’m sending all my love, warmest hugs, and best wishes your way. May your day be filled with joy, love, and everything that makes you smile. You deserve all the happiness in the world — today and always.
+
+</p>
+    </div>
+
+    <div class="music-control" id="musicControl">
+        <i class="fas fa-music"></i>
+    </div>
+
+    <audio id="birthdayMusic" loop>
+        <source src="https://www.youtube.com/watch?v=N6-0syjL9nU&list=RDN6-0syjL9nU&start_radio=1" type="audio">
+    </audio>
+
+    <script>
+        // Create sprinkles for the cake
+        const sprinklesContainer = document.getElementById('sprinkles-container');
+        const sprinkleColors = ['#ff6b6b', '#5f27cd', '#29d1a1', '#ffd166', '#06d6a0', '#ff9a3c'];
+        
+        for (let i = 0; i < 30; i++) {
+            const sprinkle = document.createElement('div');
+            sprinkle.className = 'sprinkle';
+            sprinkle.style.backgroundColor = sprinkleColors[Math.floor(Math.random() * sprinkleColors.length)];
+            sprinkle.style.left = `${Math.random() * 100}%`;
+            sprinkle.style.top = `${Math.random() * 60 + 20}%`;
+            sprinkle.style.animationDelay = `${Math.random() * 3}s`;
+            sprinklesContainer.appendChild(sprinkle);
+        }
+
+        // Show scroll message when scrolling
+        window.addEventListener('scroll', function() {
+            const scrollMessage = document.querySelector('.scroll-message');
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            
+            if (scrollPosition > windowHeight * 0.3) {
+                scrollMessage.classList.add('show');
+            } else {
+                scrollMessage.classList.remove('show');
+            }
+        });
+
+        // Music control
+        const birthdayMusic = document.getElementById('birthdayMusic');
+        const musicControl = document.getElementById('musicControl');
+        let musicPlaying = false;
+
+        // Function to handle music play with user interaction
+        function playMusic() {
+            birthdayMusic.play()
+                .then(() => {
+                    musicPlaying = true;
+                    musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+                })
+                .catch(error => {
+                    console.log("Auto-play was prevented. Please interact with the page to play music.");
+                    musicControl.style.display = 'block';
+                });
+        }
+
+        // Try to autoplay when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Many browsers require this to be triggered by user interaction
+            // So we'll show the music control and let user click it
+            musicControl.style.display = 'block';
+            
+            // Some browsers might allow this with muted audio first
+            birthdayMusic.muted = true;
+            birthdayMusic.play()
+                .then(() => {
+                    birthdayMusic.muted = false;
+                    musicPlaying = true;
+                    musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+                })
+                .catch(error => {
+                    // If autoplay fails, we'll rely on the user clicking the control
+                });
+        });
+
+        // Toggle music on control click
+        musicControl.addEventListener('click', function() {
+            if (musicPlaying) {
+                birthdayMusic.pause();
+                musicControl.innerHTML = '<i class="fas fa-music"></i>';
+            } else {
+                birthdayMusic.play();
+                musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            musicPlaying = !musicPlaying;
+        });
+    </script>
+</body>
+</html>
